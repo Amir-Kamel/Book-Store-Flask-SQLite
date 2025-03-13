@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+
+{% block title %}{{ author.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="text-primary fw-bold">
+            <i class="fas fa-user"></i> {{ author.name }}
+        </h1>
+        <p class="text-muted">Author Profile & Books</p>
+    </div>
+
+    <h3 class="mt-4 text-secondary"><i class="fas fa-book"></i> Books by {{ author.name }}</h3>
+
+    {% if books %}
+    <div class="row g-4">
+        {% for book in books %}
+        <div class="col-md-3">
+            <div class="card h-100 shadow-lg book-card">
+                <img src="/static/images/{{ book.image }}" class="book-image" alt="{{ book.name }}">
+                <div class="card-body text-center d-flex flex-column">
+                    <h5 class="card-title">{{ book.name }}</h5>
+                    <a href="{{ url_for('authandbooks.book_details', book_id=book.id) }}" class="btn btn-outline-primary mt-auto">
+                        <i class="fas fa-eye"></i> View Details
+                    </a>
+                    <form action="{{ url_for('authandbooks.delete_book', book_id=book.id) }}" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-outline-danger mt-2">
+                            <i class="fas fa-trash-alt"></i> Delete Book
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <p class="text-muted text-center mt-4"><i class="fas fa-exclamation-circle"></i> No books available for this author.</p>
+    {% endif %}
+
+    <div class="text-center mt-5">
+        <form action="{{ url_for('authandbooks.delete_author', author_id=author.id) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-user-times"></i> Delete Author
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

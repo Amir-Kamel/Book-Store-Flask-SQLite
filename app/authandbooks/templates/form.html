@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center text-primary fw-bold">
+        <i class="fas fa-pen-fancy"></i> {{ title }}
+    </h2>
+
+    <div class="col-md-6 offset-md-3">
+        <div class="card p-4 shadow-lg form-card">
+            <div class="card-body">
+                <h4 class="card-title text-center text-secondary">
+                    <i class="fas fa-edit"></i> Fill in the Details
+                </h4>
+                <hr>
+                <!-- Add Bootstrap spacing to form fields -->
+                <div class="form-container">
+                    {{ wtf.quick_form(form, button_map={"submit": "primary"}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

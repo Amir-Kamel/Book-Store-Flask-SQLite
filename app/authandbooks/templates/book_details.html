@@ -1,0 +1,55 @@
+{% extends "index.html" %}
+{% block title %}{{ book.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Book Image -->
+        <div class="col-md-5 text-center">
+            <img src="/static/images/{{ book.image }}" class="book-detail-image shadow-lg rounded" alt="{{ book.name }}">
+        </div>
+
+        <!-- Book Details -->
+        <div class="col-md-7 align-self-center">
+            <h1 class="text-primary fw-bold">
+                <i class="fas fa-book-open"></i> {{ book.name }}
+            </h1>
+
+            <ul class="list-group list-group-flush mt-3">
+                <li class="list-group-item"><i class="fas fa-calendar-alt text-success"></i> <strong>Publish Date:</strong> {{ book.publish_date }}</li>
+                <li class="list-group-item"><i class="fas fa-clock text-info"></i> <strong>Added to Site:</strong> {{ book.add_date }}</li>
+                <li class="list-group-item"><i class="fas fa-dollar-sign text-warning"></i> <strong>Price:</strong> ${{ book.price }}</li>
+                <li class="list-group-item"><i class="fas fa-tags text-danger"></i> <strong>Category:</strong> {{ book.category }}</li>
+                <li class="list-group-item">
+                    <i class="fas fa-user text-primary"></i> <strong>Author:</strong>
+                    <a href="{{ url_for('authandbooks.book_list', author_id=book.author.id) }}" class="text-decoration-none text-primary fw-bold">
+                        {{ book.author.name }}
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Buttons -->
+            <div class="mt-4 d-flex flex-wrap gap-3 justify-content-center">
+                <a href="{{ url_for('authandbooks.book_list') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Book List
+                </a>
+                <a href="{{ url_for('authandbooks.author_details', author_id=book.author.id) }}" class="btn btn-outline-info">
+                    <i class="fas fa-user"></i> View Author
+                </a>
+
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('authandbooks.edit_book', book_id=book.id) }}" class="btn btn-outline-warning">
+                        <i class="fas fa-edit"></i> Edit Book
+                    </a>
+                    <form action="{{ url_for('authandbooks.delete_book', book_id=book.id) }}" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="fas fa-trash-alt"></i> Delete Book
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
