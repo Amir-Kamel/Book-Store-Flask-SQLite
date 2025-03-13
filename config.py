@@ -6,9 +6,11 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-    DB_PATH = os.path.join(BASE_DIR, "instance", "database.db")
+    INSTANCE_DIR = os.path.join(BASE_DIR, "instance")
 
-    if os.getenv("FLY_IO"):
-        SQLALCHEMY_DATABASE_URI = "sqlite:////data/database.db"
-    else:
-        SQLALCHEMY_DATABASE_URI = f"sqlite:///{DB_PATH}"
+    # Ensure the instance directory exists locally
+    if not os.getenv("FLY_IO"):
+        os.makedirs(INSTANCE_DIR, exist_ok=True)
+
+    DB_PATH = os.path.join(INSTANCE_DIR, "database.db")
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{DB_PATH}"

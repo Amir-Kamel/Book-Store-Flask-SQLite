@@ -1,22 +1,22 @@
-# fly.toml app configuration file generated for lab1 on 2025-03-13T04:53:07+02:00
+# fly.toml app configuration file generated for lab1 on 2025-03-13T19:31:13+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "lab1"
-primary_region = "cdg"
+app = 'lab1'
+primary_region = 'cdg'
 
 [build]
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = "stop"
+  auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 1
-  processes = ["gunicorn -b 0.0.0.0:8080 wsgi:app"]
+  min_machines_running = 0
+  processes = ['app']
 
 [[vm]]
-  memory = "1gb"
-  cpu_kind = "shared"
+  memory = '1gb'
+  cpu_kind = 'shared'
   cpus = 1

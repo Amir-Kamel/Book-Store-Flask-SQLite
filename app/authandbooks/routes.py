@@ -38,7 +38,7 @@ def add_author():
         author = Author(name=form.name.data)
         author.save()
         flash('Author added successfully!', 'success')
-        return redirect(url_for('authandbooks.author_list'))
+        return redirect(url_for('authandbooks.book_list'))
 
     return render_template('form.html', title="Add an Author", form=form)
 

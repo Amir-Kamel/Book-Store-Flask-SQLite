@@ -22,7 +22,7 @@
                 <li class="list-group-item"><i class="fas fa-tags text-danger"></i> <strong>Category:</strong> {{ book.category }}</li>
                 <li class="list-group-item">
                     <i class="fas fa-user text-primary"></i> <strong>Author:</strong>
-                    <a href="{{ url_for('authandbooks.book_list', author_id=book.author.id) }}" class="text-decoration-none text-primary fw-bold">
+                    <a href="{{ url_for('authandbooks.author_details', author_id=book.author.id) }}" class="text-decoration-none text-primary fw-bold">
                         {{ book.author.name }}
                     </a>
                 </li>

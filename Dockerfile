@@ -1,18 +1,26 @@
-# Use an official Python image
-FROM python:3.10
+# Use the official lightweight Python image
+FROM python:3.11
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy all project files to the container
+FROM python:3.11
+
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
-# Install dependencies
-RUN pip install -r requirements.txt
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=production
 
-# Expose the port Flask runs on (Fly.io expects 8080)
+# Expose Fly.io's default port
 EXPOSE 8080
 
-# Run the application with Gunicorn (remove the extra CMD)
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "wsgi:app"]
+# Start the app using Gunicorn (Recommended for production)
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "app:create_app()"]
+
+
 
