@@ -1,26 +1,19 @@
-# Use the official lightweight Python image
+# Use the official Python image
 FROM python:3.11
 
 # Set the working directory inside the container
 WORKDIR /app
 
-FROM python:3.11
-
-WORKDIR /app
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
+# Copy the project files
 COPY . .
 
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose Fly.io's default port
+# Expose the port Flask will run on (Railway assigns PORT dynamically)
 EXPOSE 8080
 
-# Start the app using Gunicorn (Recommended for production)
+mkdir -p instance && touch instance/database.db
+
+# Start the Flask app with Gunicorn
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "app:create_app()"]
-
-
-

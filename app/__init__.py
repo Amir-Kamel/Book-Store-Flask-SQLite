@@ -38,5 +38,7 @@ def create_app():
     app.register_blueprint(authandbooks, url_prefix="/")
     app.register_blueprint(users, url_prefix="/user")
 
+    with app.app_context():
+        db.create_all()
 
     return app
